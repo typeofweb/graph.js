@@ -6,8 +6,9 @@
 ***********************************************************/
 var graph = function (opts)
 {
+    "use strict";
     graph.options = opts;
-    defaultOptions = {
+    var defaultOptions = {
             canvas: document.getElementById("drawing"),
             zoom: {x:50, y:50},
             origin: {x:400, y:300},
@@ -23,24 +24,23 @@ var graph = function (opts)
                     funStep: 1
                 }
         };
-    if(!graph.options)
-        graph.options = defaultOptions;
-    else
-    {
-        if(!graph.options.canvas)
-            graph.options.canvas = defaultOptions.canvas;
-    }
+    graph.options = graph.options || defaultOptions;
+    
+    graph.options.canvas = graph.options.canvas || defaultOptions.canvas;
+
     //console.log(graph.options);
     graph.draw = graph.options.canvas.getContext("2d");
     graph.draw.clearRect(0,0, graph.options.canvas.width, graph.options.canvas.height);
     
     graph.initialize();
-}
+};
+
 graph.initialize = function()
 {
+    "use strict";
     if(graph.options.canvas.getContext)
     {
-        if(graph.options.equations.funp!='')
+        if(graph.options.equations.funp!=='')
         {
             if(graph.options.equations.euler)
                 graph.Euler(function(x, y){return eval(graph.options.equations.funp); }, eval(graph.options.equations.funpX0), eval(graph.options.equations.funpY0));
@@ -49,20 +49,22 @@ graph.initialize = function()
             if(graph.options.equations.euler3)
                 graph.Euler3(function(x, y){return eval(graph.options.equations.funp); }, eval(graph.options.equations.funpX0), eval(graph.options.equations.funpY0));
         }
-        if(graph.options.equations.fun!='')
+        if(graph.options.equations.fun!=='')
             graph.drawFunction(function(x) { return eval(graph.options.equations.fun); });
         graph.drawAxes();
     }
-}
+};
+
 graph.drawFunction = function(f)
 {
+    "use strict";
     graph.draw.beginPath();
     var bMoveTo=false;
     for(var posX=-graph.options.origin.x; posX<graph.options.canvas.width-graph.options.origin.x; posX+=(parseFloat(graph.options.equations.funStep)*0.1))
     {
         var x = posX/graph.options.zoom.x;
         var y = f(x)*graph.options.zoom.y;
-        if( (!isFinite(y) || Math.round(parseFloat(graph.options.equations.funStep)*y/99999)!=0 ) )
+        if( (!isFinite(y) || Math.round(parseFloat(graph.options.equations.funStep)*y/99999)!==0 ) )
         {
             var bX = f(x-(parseFloat(graph.options.equations.funStep)*0.1));
             var aX = f(x+(parseFloat(graph.options.equations.funStep)*0.1));
@@ -92,9 +94,11 @@ graph.drawFunction = function(f)
     graph.draw.strokeStyle="orange";
     graph.draw.stroke();
     graph.draw.closePath();
-}
+};
+
 graph.Euler = function(fp, x0, y0)  // fp = first derivative
 {
+    "use strict";
     //console.log(x0, y0);
     var h = graph.options.equations.funpStep*0.1/graph.options.zoom.y;
     var curX=x0;
@@ -112,8 +116,8 @@ graph.Euler = function(fp, x0, y0)  // fp = first derivative
     graph.draw.stroke();
     graph.draw.closePath();
     
-    var curX=x0;
-    var curY=y0;
+    curX=x0;
+    curY=y0;
     graph.draw.moveTo(x0, y0);
     graph.draw.beginPath();
     while(curX+graph.options.origin.x>=-1)
@@ -126,9 +130,11 @@ graph.Euler = function(fp, x0, y0)  // fp = first derivative
     graph.draw.strokeStyle="red";
     graph.draw.stroke();
     graph.draw.closePath();
-}
+};
+
 graph.Euler2 = function(fp, x0, y0)  // fp = first derivative
 {
+    "use strict";
     var h = graph.options.equations.funpStep*0.1/graph.options.zoom.y;
     var curX=x0;
     var curY=y0;
@@ -145,8 +151,8 @@ graph.Euler2 = function(fp, x0, y0)  // fp = first derivative
     graph.draw.stroke();
     graph.draw.closePath();
     
-    var curX=x0;
-    var curY=y0;
+    curX=x0;
+    curY=y0;
     graph.draw.moveTo(x0, y0);
     graph.draw.beginPath();
     while(curX+graph.options.origin.x>=-1)
@@ -158,9 +164,11 @@ graph.Euler2 = function(fp, x0, y0)  // fp = first derivative
     graph.draw.strokeStyle="blue";
     graph.draw.stroke();
     graph.draw.closePath();
-}
+};
+
 graph.Euler3 = function(fp, x0, y0)  // fp = first derivative
 {
+    "use strict";
     var h = graph.options.equations.funpStep*0.1/graph.options.zoom.y;
     var curX=x0;
     var curY=y0;
@@ -176,14 +184,14 @@ graph.Euler3 = function(fp, x0, y0)  // fp = first derivative
     graph.draw.stroke();
     graph.draw.closePath();
     
-    var curX=x0;
-    var curY=y0;
+    curX=x0;
+    curY=y0;
     graph.draw.moveTo(x0, y0);
     graph.draw.beginPath();
     while(curX+graph.options.origin.x>=-1)
     {
         graph.draw.lineTo(curX*graph.options.zoom.x+graph.options.origin.x, graph.options.canvas.height-graph.options.origin.y-curY*graph.options.zoom.y);
-        var bY=curY;
+        //var bY=curY;
         curY-=h*(fp(curX, curY)+fp(curX+h, curY+fp(curX, curY)*h))/2;
         curX-=h;
     }
@@ -191,9 +199,11 @@ graph.Euler3 = function(fp, x0, y0)  // fp = first derivative
     graph.draw.strokeStyle="green";
     graph.draw.stroke();
     graph.draw.closePath();
-}
+};
+
 graph.drawAxes = function()
 {
+    "use strict";
     graph.draw.beginPath();
     graph.draw.moveTo(0, graph.options.canvas.height-graph.options.origin.y);
     graph.draw.lineTo(graph.options.canvas.width, graph.options.canvas.height-graph.options.origin.y);
@@ -202,16 +212,18 @@ graph.drawAxes = function()
     graph.draw.strokeStyle="black";
     graph.draw.stroke();
     graph.draw.closePath();
-}
+};
 
 
 var prepare = function()
 {
+    "use strict";
     document.getElementById("proceed").addEventListener("click", onProceedButtonClick, false);
-}
+};
 
 var onProceedButtonClick = function()
 {
+    "use strict";
     var $ = function(sel) { return document.getElementById(sel); };
     
     var opts = {
@@ -225,6 +237,6 @@ var onProceedButtonClick = function()
                 }
         };
     graph(opts);
-}
+};
 
-window.addEventListener("load", function() { prepare(); }, false)
+window.addEventListener("load", prepare, false);
