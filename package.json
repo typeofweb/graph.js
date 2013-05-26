@@ -1,13 +1,15 @@
 {
-  "name": "Graph.js",
-  "version": "0.1.0",
-  "scripts": {
-    "test": "./node_modules/.bin/karma start --single-run --browsers PhantomJS"
-  },
-  "devDependencies": {
-    "karma": ">=0.8"
-  },
-  "engines": {
-    "node": ">=0.8"
-  }
+    "name": "Graph.js",
+    "version": "0.1.0",
+    "devDependencies": {
+        "karma": ">=0.8",
+        "grunt": ">=0.4",
+        "jshint": ">=2.1",
+        "grunt-contrib-jshint": "~0.4.3",
+        "grunt-karma": "~0.4.4",
+        "grunt-cli": "~0.1.9"
+    },
+    "engines": {
+        "node": ">=0.8"
+    }
 }

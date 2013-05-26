@@ -132,8 +132,6 @@
     };
 
     Graphjs.prototype.takeCareOfAsymptotes = function (arr) {
-        var _self = this;
-        var lastSign = 0;
         arr.forEach(function (val, i) {
             if (Math.abs(arr[i].y) === Infinity) {
                 arr[i].y = Math.sgn(arr[i].y) * MAX_INT;
@@ -158,7 +156,7 @@
         _ctx.moveTo(_self.getMinXY().x + _self.config.offset.x, -(arr[0].y) - _self.config.offset.y);
 
         arr.forEach(function (val, i) {
-            if (i == 0) {
+            if (i === 0) {
                 return;
             }
             var method = (val.asymptote) ? 'moveTo' : 'lineTo';
