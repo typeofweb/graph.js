@@ -1,0 +1,1 @@
+[![Build Status](https://travis-ci.org/mmiszy/graph.js.png)](https://travis-ci.org/mmiszy/graph.js)

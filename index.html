@@ -7,9 +7,21 @@
         <link rel="stylesheet" href="app/style.css" media="screen">
     </head>
     <body>
-        <canvas id="main_canv"></canvas>
-        <script type"text/javascript">
-            Graphjs.init();
+        <canvas id="main_canv" width="300" height="300"></canvas>
+        <script type="text/javascript">
+            var graphjs = new Graphjs();
+            graphjs.init({
+                offset: {
+                    x: 150,
+                    y: -150
+                },
+                zoom: {
+                    x: 1,
+                    y: 1
+                }
+            });
+            var x = graphjs.calcFunction('Math.sin(x)', 'euler');
+            graphjs.draw(x);
         </script>
     </body>
 </html>
